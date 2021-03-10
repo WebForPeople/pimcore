@@ -85,7 +85,8 @@ class Cse implements \Zend_Paginator_Adapter_Interface, \Zend_Paginator_AdapterA
                     $result = \Pimcore\Cache\Runtime::get($cacheKey);
                 } else {
                     if (!$result = Cache::load($cacheKey)) {
-                        $result = $search->cse->listCse($query, $config);
+                        $config['q'] = $query;
+                        $result = $search->cse->listCse($config); //Google API has changed after 2020 update
                         Cache::save($result, $cacheKey, ['google_cse'], 3600, 999);
                         \Pimcore\Cache\Runtime::set($cacheKey, $result);
                     }
