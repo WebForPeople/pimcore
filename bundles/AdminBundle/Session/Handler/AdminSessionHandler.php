@@ -36,19 +36,20 @@ class AdminSessionHandler extends AbstractAdminSessionHandler implements LoggerA
     {
         $sessionName = $this->getSessionName();
 
-        $this->logger->debug('Opening admin session {name}', ['name' => $sessionName]);
-
+        if ($this->logger) {
+            $this->logger->debug('Opening admin session {name}', ['name' => $sessionName]);
+        }
         if (!$this->session->isStarted()) {
             $this->session->start();
         }
 
         $this->openedSessions++;
-
-        $this->logger->debug('Admin session {name} was successfully opened. Open admin sessions: {count}', [
-            'name' => $sessionName,
-            'count' => $this->openedSessions
-        ]);
-
+        if ($this->logger) {
+            $this->logger->debug('Admin session {name} was successfully opened. Open admin sessions: {count}', [
+                'name' => $sessionName,
+                'count' => $this->openedSessions
+            ]);
+        }
         return $this->session;
     }
 
@@ -61,15 +62,18 @@ class AdminSessionHandler extends AbstractAdminSessionHandler implements LoggerA
 
         if (0 === $this->openedSessions) {
             $this->session->save();
-
-            $this->logger->debug('Admin session {name} was written and closed', [
-                'name' => $this->getSessionName()
-            ]);
+            if ($this->logger) {
+                $this->logger->debug('Admin session {name} was written and closed', [
+                    'name' => $this->getSessionName()
+                ]);
+            }
         } else {
-            $this->logger->debug('Not writing/closing session admin session {name} as there are still {count} open sessions', [
-                'name' => $this->getSessionName(),
-                'count' => $this->openedSessions
-            ]);
+            if ($this->logger) {
+                $this->logger->debug('Not writing/closing session admin session {name} as there are still {count} open sessions', [
+                    'name' => $this->getSessionName(),
+                    'count' => $this->openedSessions
+                ]);
+            }
         }
     }
 }
