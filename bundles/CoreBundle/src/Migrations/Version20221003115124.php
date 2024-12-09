@@ -57,12 +57,26 @@ final class Version20221003115124 extends AbstractMigration
             }
         }
 
-        $tableListClassificationstore = $this->connection->fetchAllAssociative("SHOW TABLES LIKE 'object_classificationstore_%'");
+        $tableListClassificationstore = $this->connection->fetchAllAssociative("SHOW TABLES LIKE 'object_classificationstore_groups_%'");
         foreach ($tableListClassificationstore as $table) {
             $tableName = current($table);
             $columnExists = $this->connection->fetchAllAssociative("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$tableName' AND COLUMN_NAME = 'o_id'");
             if ($columnExists) {
-                $this->addSql("ALTER TABLE $tableName CHANGE o_id id int(11) unsigned NOT NULL;");
+                $this->addSql("ALTER TABLE $tableName DROP FOREIGN KEY IF EXISTS `fk_{$tableName}__groupId`");
+                $this->addSql("ALTER TABLE $tableName CHANGE o_id id int(11) unsigned NOT NULL");
+                $this->addSql("ALTER TABLE $tableName ADD CONSTRAINT `fk_{$tableName}__groupId` foreign key (groupId) references `classificationstore_groups` (id) on delete cascade");
+            }
+        }
+
+        $tableListClassificationstore = $this->connection->fetchAllAssociative("SHOW TABLES LIKE 'object_classificationstore_data_%'");
+        foreach ($tableListClassificationstore as $table) {
+            $tableName = current($table);
+            $groupsTableName = str_replace('object_classificationstore_data_', 'object_classificationstore_groups_', $tableName);
+            $columnExists = $this->connection->fetchAllAssociative("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$tableName' AND COLUMN_NAME = 'o_id'");
+            if ($columnExists) {
+                $this->addSql("ALTER TABLE $tableName DROP FOREIGN KEY IF EXISTS `fk_{$tableName}__o_id__fieldname__groupId`");
+                $this->addSql("ALTER TABLE $tableName CHANGE o_id id int(11) unsigned NOT NULL");
+                $this->addSql("ALTER TABLE $tableName ADD CONSTRAINT `fk_{$tableName}__o_id__fieldname__groupId` foreign key (id, fieldname, groupId) references $groupsTableName (id, fieldname, groupId) on delete cascade");
             }
         }
     }
