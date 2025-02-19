@@ -15,6 +15,7 @@
 namespace Pimcore\Maintenance;
 
 use Pimcore\Model\Tool\Lock;
+use Pimcore\Tool;
 use Psr\Log\LoggerInterface;
 
 final class Executor implements ExecutorInterface
@@ -90,7 +91,10 @@ final class Executor implements ExecutorInterface
                 $this->logger->info('Finished job with ID {id}', [
                     'id' => $name
                 ]);
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
+                if (Tool::classExists('Website\Tool\Sentry')){
+                    \Website\Tool\Sentry::captureException($e);
+                }
                 $this->logger->error('Failed to execute job with ID {id}: {exception}', [
                     'id' => $name,
                     'exception' => $e
