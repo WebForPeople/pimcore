@@ -29,6 +29,7 @@ use Pimcore\Model\Document\Targeting\TargetingDocumentInterface;
 use Pimcore\Model\Webservice;
 use Pimcore\Templating\Model\ViewModel;
 use Pimcore\Templating\Model\ViewModelInterface;
+use Pimcore\Tool;
 use Pimcore\Tool\HtmlUtils;
 use Pimcore\View;
 
@@ -472,6 +473,12 @@ abstract class Tag extends Model\AbstractModel implements Model\Document\Tag\Tag
                 $result = $this->frontend();
             }
         } catch (\Throwable $e) {
+            if (Tool::classExists("\\Website\\Tool\\Sentry")) {
+                \Website\Tool\Sentry::captureException($e);
+            }
+            Logger::error('toString() returned an exception: {exception}', [
+                'exception' => $e
+            ]);
             if (\Pimcore::inDebugMode(DebugMode::RENDER_DOCUMENT_TAG_ERRORS)) {
                 // the __toString method isn't allowed to throw exceptions
                 $result = '<b style="color:#f00">' . $e->getMessage().'</b><br/>'.$e->getTraceAsString();
@@ -479,9 +486,6 @@ abstract class Tag extends Model\AbstractModel implements Model\Document\Tag\Tag
                 return $result;
             }
 
-            Logger::error('toString() returned an exception: {exception}', [
-                'exception' => $e
-            ]);
 
             return '';
         }
