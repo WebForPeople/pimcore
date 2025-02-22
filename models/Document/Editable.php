@@ -25,6 +25,7 @@ use Pimcore\Logger;
 use Pimcore\Model;
 use Pimcore\Model\Document;
 use Pimcore\Model\Document\Targeting\TargetingDocumentInterface;
+use Pimcore\Tool;
 use Pimcore\Tool\HtmlUtils;
 
 /**
