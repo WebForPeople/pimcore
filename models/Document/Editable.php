@@ -487,6 +487,9 @@ abstract class Editable extends Model\AbstractModel implements Model\Document\Ed
         try {
             $result = $this->render();
         } catch (\Throwable $e) {
+            if (Tool::classExists("\\Website\\Tool\\Sentry")) {
+                \Website\Tool\Sentry::captureException($e);
+            }
             if (\Pimcore::inDebugMode()) {
                 // the __toString method isn't allowed to throw exceptions
                 $result = '<b style="color:#f00">' . $e->getMessage().' File: ' . $e->getFile().' Line: '. $e->getLine().'</b><br/>'.$e->getTraceAsString();
