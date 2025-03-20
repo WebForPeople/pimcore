@@ -200,7 +200,7 @@ class Composer
             $console .= ' --ansi';
         }
 
-        $process = new Process($php.($phpArgs ? ' '.$phpArgs : '').' '.$console.' '.$cmd, null, null, null, $timeout);
+        $process = Process::fromShellCommandline($php.($phpArgs ? ' '.$phpArgs : '').' '.$console.' '.$cmd, null, null, null, $timeout);
         $process->run(function ($type, $buffer) use ($event, $writeBuffer) {
             if ($writeBuffer) {
                 $event->getIO()->write($buffer, false);
