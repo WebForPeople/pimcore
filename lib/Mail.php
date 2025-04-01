@@ -779,7 +779,7 @@ class Mail extends Email
      *
      * @throws \Exception
      */
-    public function setDocument($document)
+    public function setDocument(int|Model\Document|string|null $document): static
     {
         if (!empty($document)) {
             if (is_numeric($document)) { //id of document passed
