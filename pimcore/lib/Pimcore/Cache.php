@@ -130,16 +130,24 @@ class Cache
 
                 if (is_array($conf)) {
                     if (isset($conf["frontend"])) {
-                        $config["frontendType"] = $conf["frontend"]["type"];
-                        $config["customFrontendNaming"] = $conf["frontend"]["custom"];
+                        if (isset($conf["frontend"]["type"])) {
+                            $config["frontendType"] = $conf["frontend"]["type"];
+                        }
+                        if (isset($conf["frontend"]["custom"])) {
+                            $config["customFrontendNaming"] = $conf["frontend"]["custom"];
+                        }
                         if (isset($conf["frontend"]["options"])) {
                             $config["frontendConfig"] = $conf["frontend"]["options"];
                         }
                     }
 
                     if (isset($conf["backend"])) {
-                        $config["backendType"] = $conf["backend"]["type"];
-                        $config["customBackendNaming"] = $conf["backend"]["custom"];
+                        if (isset($conf["backend"]["type"])) {
+                            $config["backendType"] = $conf["backend"]["type"];
+                        }
+                        if (isset($conf["backend"]["custom"])) {
+                            $config["customBackendNaming"] = $conf["backend"]["custom"];
+                        }
                         if (isset($conf["backend"]["options"])) {
                             $config["backendConfig"] = $conf["backend"]["options"];
                         }
