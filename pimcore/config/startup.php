@@ -16,7 +16,12 @@ error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT);
 
 // configure some constants needed by pimcore
 $pimcoreDocumentRoot = realpath(dirname(__FILE__) . '/../..');
-
+if (!is_link("{$pimcoreDocumentRoot}/pimcore")){
+    $pimcoreDocumentRoot1 = realpath(dirname(__FILE__) . '/../../../../../');
+    if (is_link("{$pimcoreDocumentRoot1}/pimcore")){
+        $pimcoreDocumentRoot = $pimcoreDocumentRoot1;
+    }
+}
 $customConstants = $pimcoreDocumentRoot . "/constants.php";
 if (file_exists($customConstants)) {
     include_once $customConstants;
