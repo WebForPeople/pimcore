@@ -104,7 +104,7 @@ class Select extends Model\Object\ClassDefinition\Data
     protected function correctColumnDefinition($type)
     {
         preg_match("/(.*)\((\d+)\)/i", $this->$type, $matches);
-        if ($matches[2]) {
+        if (isset($matches[2]) && isset($matches[1]) && $matches[2]) {
             $this->{"set" . ucfirst($type)}($matches[1]);
             if ($matches[2] > 190) {
                 $matches[2] = 190;
