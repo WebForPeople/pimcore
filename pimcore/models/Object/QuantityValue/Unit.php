@@ -100,6 +100,8 @@ class Unit extends Model\AbstractModel
         try {
             if (\Zend_Registry::isRegistered(self::CACHE_KEY)) {
                 $table = \Zend_Registry::get(self::CACHE_KEY);
+            } else {
+                $table = null;
             }
 
             if (!is_array($table)) {
