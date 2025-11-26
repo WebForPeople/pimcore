@@ -34,7 +34,8 @@ class Version20190403120728 extends AbstractPimcoreMigration
                 $metaTable = current($table);
 
                 // add index column to metadata tables
-                $this->addSql('ALTER TABLE `' . $metaTable . '` ADD COLUMN `index` int(11) unsigned NOT NULL DEFAULT \'0\'');
+                //ADD COLUMN IF NOT EXISTS is not supported by MySQL but is supported by MariaDB > 10.0.2
+                $this->addSql('ALTER TABLE `' . $metaTable . '` ADD COLUMN IF NOT EXISTS `index` int(11) unsigned NOT NULL DEFAULT \'0\'');
                 $this->addSql('ALTER TABLE `' . $metaTable . '` DROP PRIMARY KEY');
                 $this->addSql('ALTER TABLE `' . $metaTable . '` ADD PRIMARY KEY (`o_id`, `dest_id`, `type`, `fieldname`, `column`, `ownertype`, `ownername`, `position`, `index`)');
 
