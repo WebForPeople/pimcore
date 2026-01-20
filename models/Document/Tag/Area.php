@@ -77,7 +77,7 @@ class Area extends Model\Document\Tag
         $tagHandler = \Pimcore::getContainer()->get('pimcore.document.tag.handler');
 
         // don't show disabled bricks
-        if (!$tagHandler->isBrickEnabled($this, $options['type'] && $options['dontCheckEnabled'] != true)) {
+        if (!$tagHandler->isBrickEnabled($this, $options['type'] && isset($options['dontCheckEnabled']) && $options['dontCheckEnabled'] != true)) {
             return;
         }
 
