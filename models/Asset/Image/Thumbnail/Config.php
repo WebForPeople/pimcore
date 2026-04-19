@@ -919,7 +919,7 @@ final class Config extends Model\AbstractModel
 
         //rebuild asset path for overlays
         foreach ($this->items as &$item) {
-            if (in_array($item['method'], ['addOverlay', 'addOverlayFit'])) {
+            if (isset($item['method']) &&in_array($item['method'], ['addOverlay', 'addOverlayFit'])) {
                 if (isset($item['arguments']['id'])) {
                     $img = Model\Asset\Image::getById($item['arguments']['id']);
                     if ($img) {
