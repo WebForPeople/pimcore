@@ -16,6 +16,7 @@ namespace Pimcore\Image;
 
 use Pimcore\Exception\ImageOptimizationFailedException;
 use Pimcore\Image\Optimizer\OptimizerInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 class Optimizer implements ImageOptimizerInterface
 {
@@ -40,17 +41,21 @@ class Optimizer implements ImageOptimizerInterface
         $extension = pathinfo($workingPath, PATHINFO_EXTENSION);
 
         foreach ($this->optimizers as $optimizer) {
-            if ($optimizer->supports($path)) {
-                try {
-                    $optimizedFile = $optimizer->optimizeImage($workingPath, $this->createOutputImage($extension));
+            try {
+                if ($optimizer->supports($path)) {
+                    try {
+                        $optimizedFile = $optimizer->optimizeImage($workingPath, $this->createOutputImage($extension));
 
-                    $optimizedImages[] = [
-                        'filesize' => filesize($optimizedFile),
-                        'path' => $optimizedFile,
-                        'optimizer' => $optimizer,
-                    ];
-                } catch (ImageOptimizationFailedException $ex) {
+                        $optimizedImages[] = [
+                            'filesize' => filesize($optimizedFile),
+                            'path' => $optimizedFile,
+                            'optimizer' => $optimizer,
+                        ];
+                    } catch (ImageOptimizationFailedException $ex) {
+                    }
                 }
+            } catch (FileNotFoundException $e) {
+                //ignore
             }
         }
 
