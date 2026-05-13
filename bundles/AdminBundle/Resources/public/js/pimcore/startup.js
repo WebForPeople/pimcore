@@ -269,7 +269,7 @@ Ext.onReady(function () {
                 pimcore.helpers.showNotification(t("access_denied"), t("access_denied_description"), "error");
             } else if (response.status === 500) {
                 pimcore.helpers.showNotification(t("error"), t("error_general"), "error", errorMessage);
-            } else {
+            } else if (response.status !== 0) {
                 let message = t("error");
                 if (jsonData && jsonData['message']) {
                     message = jsonData['message'];
