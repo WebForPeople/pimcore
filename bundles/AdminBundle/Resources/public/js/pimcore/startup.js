@@ -201,7 +201,7 @@ Ext.onReady(function () {
                     pimcore.viewport.add(pimcore.maintenanceWindow);
                     pimcore.maintenanceWindow.show();
                 }
-            } else {
+            } else if (response.status !== 0) {
                 //do not remove notification, otherwise user is never informed about server exception (e.g. element cannot
                 // be saved due to HTTP 500 Response)
                 var date = new Date();
