@@ -98,9 +98,13 @@ class Multiselect extends Data implements
     /**
      * @return $this
      */
-    public function setMaxItems(?int $maxItems): static
+    public function setMaxItems(int|string|null $maxItems): static
     {
-        $this->maxItems = $maxItems;
+        if ($maxItems !== null) {
+            $this->maxItems = (int) $maxItems;
+        }else{
+            $this->maxItems = $maxItems;
+        }
 
         return $this;
     }

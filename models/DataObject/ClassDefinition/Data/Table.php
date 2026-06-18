@@ -106,9 +106,13 @@ class Table extends Data implements ResourcePersistenceAwareInterface, QueryReso
     /**
      * @return $this
      */
-    public function setRows(?int $rows): static
+    public function setRows(int|string|null $rows): static
     {
-        $this->rows = $rows;
+        if ($rows !== null) {
+            $this->rows = (int) $rows;
+        }else{
+            $this->rows = $rows;
+        }
 
         return $this;
     }

@@ -809,7 +809,7 @@ final class ClassDefinition extends Model\AbstractModel implements ClassDefiniti
     /**
      * @return $this
      */
-    public function setParentClass(string $parentClass): static
+    public function setParentClass(string|null $parentClass): static
     {
         $this->parentClass = (string) $parentClass;
 
@@ -899,9 +899,9 @@ final class ClassDefinition extends Model\AbstractModel implements ClassDefiniti
     /**
      * @return $this
      */
-    public function setAllowVariants(bool $allowVariants): static
+    public function setAllowVariants(bool|null $allowVariants): static
     {
-        $this->allowVariants = $allowVariants;
+        $this->allowVariants = (bool)$allowVariants;
 
         return $this;
     }

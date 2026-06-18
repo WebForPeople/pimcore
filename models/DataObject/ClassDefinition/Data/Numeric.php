@@ -141,9 +141,14 @@ class Numeric extends Data implements ResourcePersistenceAwareInterface, QueryRe
         return $this->integer;
     }
 
-    public function setMaxValue(?float $maxValue): void
+    public function setMaxValue(float|string|null $maxValue): void
     {
         $this->maxValue = $maxValue;
+        if ($maxValue !== null) {
+            $this->maxValue = (float)$maxValue;
+        }else{
+            $this->maxValue = $maxValue;
+        }
     }
 
     public function getMaxValue(): ?float
@@ -151,9 +156,13 @@ class Numeric extends Data implements ResourcePersistenceAwareInterface, QueryRe
         return $this->maxValue;
     }
 
-    public function setMinValue(?float $minValue): void
+    public function setMinValue(float|string|null $minValue): void
     {
-        $this->minValue = $minValue;
+        if ($minValue !== null) {
+            $this->minValue = (float)$minValue;
+        }else{
+            $this->minValue = $minValue;
+        }
     }
 
     public function getMinValue(): ?float
@@ -185,13 +194,13 @@ class Numeric extends Data implements ResourcePersistenceAwareInterface, QueryRe
         $this->decimalSize = $decimalSize;
     }
 
-    public function setDecimalPrecision(?int $decimalPrecision): void
+    public function setDecimalPrecision(int|string|null $decimalPrecision): void
     {
         if (!is_numeric($decimalPrecision)) {
             $decimalPrecision = null;
         }
 
-        $this->decimalPrecision = $decimalPrecision;
+        $this->decimalPrecision = (int) $decimalPrecision;
     }
 
     public function getDecimalPrecision(): ?int
