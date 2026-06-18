@@ -37,7 +37,7 @@ final class Version20220829132224 extends AbstractMigration
             $configs = @include $file;
         }
 
-        return $configs;
+        return $configs ?? [];
     }
 
     private function migrateToSettingsStore(string $id, string $scope, array $configs, bool $overwriteExistingConfig = false): void
