@@ -954,7 +954,7 @@ final class ClassDefinition extends Model\AbstractModel implements ClassDefiniti
     /**
      * @return $this
      */
-    public function setDescription(string $description): static
+    public function setDescription(string|null $description): static
     {
         $this->description = (string) $description;
 
