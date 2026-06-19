@@ -35,6 +35,7 @@ class ObjectBrickContainerClassBuilder implements ObjectBrickContainerClassBuild
         $cd .= "\n\n";
         $cd .= 'use Pimcore\Model\DataObject\Exception\InheritanceParentNotFoundException;';
         $cd .= "\n\n";
+        $cd .= "#[\AllowDynamicProperties]\n";
         $cd .= 'class ' . $className . ' extends \\Pimcore\\Model\\DataObject\\Objectbrick {';
         $cd .= "\n\n";
 

@@ -62,6 +62,7 @@ class ObjectBrickClassBuilder implements ObjectBrickClassBuilderInterface
         $implementsParts = [];
         $implements = ClassDefinition\Service::buildImplementsInterfacesCode($implementsParts, $definition->getImplementsInterfaces());
 
+        $cd .= '#[\AllowDynamicProperties]' . "\n";
         $cd .= 'class ' . ucfirst($definition->getKey()) . ' extends ' . $extendClass . $implements . "\n";
         $cd .= '{' . "\n";
 

@@ -104,6 +104,7 @@ class ClassBuilder implements ClassBuilderInterface
 
         $implements = ClassDefinition\Service::buildImplementsInterfacesCode($implementsParts, $classDefinition->getImplementsInterfaces());
 
+        $cd .= '#[\AllowDynamicProperties]' . "\n";
         $cd .= 'class '.ucfirst($classDefinition->getName()).' extends '.$extendClass. $implements . "\n";
         $cd .= '{' . "\n";
 
