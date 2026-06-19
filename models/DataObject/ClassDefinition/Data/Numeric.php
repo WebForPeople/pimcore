@@ -143,7 +143,6 @@ class Numeric extends Data implements ResourcePersistenceAwareInterface, QueryRe
 
     public function setMaxValue(float|string|null $maxValue): void
     {
-        $this->maxValue = $maxValue;
         if ($maxValue !== null) {
             $this->maxValue = (float)$maxValue;
         }else{

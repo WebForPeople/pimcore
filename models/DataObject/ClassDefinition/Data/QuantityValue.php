@@ -99,9 +99,13 @@ class QuantityValue extends AbstractQuantityValue
         return $this->integer;
     }
 
-    public function setMaxValue(?float $maxValue): void
+    public function setMaxValue(float|string|null $maxValue): void
     {
-        $this->maxValue = $maxValue;
+        if ($maxValue !== null) {
+            $this->maxValue = (float)$maxValue;
+        }else{
+            $this->maxValue = $maxValue;
+        }
     }
 
     public function getMaxValue(): ?float

@@ -81,10 +81,13 @@ class Slider extends Data implements ResourcePersistenceAwareInterface, QueryRes
     /**
      * @return $this
      */
-    public function setMaxValue(?float $maxValue): static
+    public function setMaxValue(float|string|null $maxValue): static
     {
-        $this->maxValue = $maxValue;
-
+        if ($maxValue !== null) {
+            $this->maxValue = (float)$maxValue;
+        }else{
+            $this->maxValue = $maxValue;
+        }
         return $this;
     }
 
