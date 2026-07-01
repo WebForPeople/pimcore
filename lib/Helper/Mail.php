@@ -270,9 +270,9 @@ CSS;
                 if (strpos($v, 'http://') === 0 || strpos($v, 'https://') === 0 || strpos($v, '//') === 0) {
                     continue;
                 }
-                $parts[$key] = $hostUrl.$v;
+                $parts[$key] = $hostUrl . $v;
             }
-            $s = ' srcset="'.implode(', ', $parts).'" ';
+            $s = ' srcset="' . implode(', ', $parts) . '" ';
             if ($matches[0][$i]) {
                 $string = str_replace($matches[0][$i], $s, $string);
             }
@@ -365,7 +365,11 @@ CSS;
                 } else {
                     $imageUrl = dirname($fileInfo['fileUrlNormalized']) . "/$path";
                     $netUrl = new \Net_URL2($imageUrl);
-                    $imageUrl = $netUrl->getNormalizedURL();
+                    try {
+                        $imageUrl = $netUrl->getNormalizedURL();
+                    } catch (\ErrorException $e) {
+                        continue;
+                    }
                 }
 
                 $content = str_replace($fullMatch, ' url(' . $imageUrl . ') ', $content);
