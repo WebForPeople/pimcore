@@ -17,6 +17,7 @@ namespace Pimcore\Model\Translation;
 
 use Doctrine\DBAL\ArrayParameterType;
 use Exception;
+use Pimcore\Cache\RuntimeCache;
 use Pimcore\Db\Helper;
 use Pimcore\Logger;
 use Pimcore\Model;
@@ -170,16 +171,21 @@ class Dao extends Model\Dao\AbstractDao
      */
     public function isAValidDomain(string $domain): bool
     {
+        if (RuntimeCache::isRegistered("valid_translations_{$domain}")) {
+            return RuntimeCache::get("valid_translations_{$domain}");
+        }
         try {
             $translationDomains = $this->model->getRegisteredDomains();
             if (!in_array($domain, $translationDomains)) {
+                RuntimeCache::set("valid_translations_{$domain}", false);
                 return false;
             }
 
             $this->db->fetchOne(sprintf('SELECT * FROM translations_%s LIMIT 1;', $domain));
-
+            RuntimeCache::set("valid_translations_{$domain}", true);
             return true;
         } catch (Exception $e) {
+            RuntimeCache::set("valid_translations_{$domain}", false);
             return false;
         }
     }
