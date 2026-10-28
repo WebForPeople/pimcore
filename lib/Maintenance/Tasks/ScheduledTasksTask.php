@@ -46,7 +46,7 @@ class ScheduledTasksTask implements TaskInterface
         $tasks = $list->load();
 
         foreach ($tasks as $task) {
-            $taskUser = User::getById($task->getUserId());
+            $taskUser = User::getById($task->getUserId() ?? 0);
 
             try {
                 if ($task->getCtype() === 'document') {
